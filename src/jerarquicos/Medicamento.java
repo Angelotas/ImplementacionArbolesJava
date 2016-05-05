@@ -30,6 +30,7 @@ public class Medicamento implements Comparable<Medicamento>{
         
         if (this.codigoB.compareTo(m.getCodigoB()) > 0){
             return 0; //este codigo es mayor que el que le pasamos por referencia
+                      //Ej. 7.compareTo(6) --> return 0  res.
         }
         else if (this.codigoB.compareTo(m.getCodigoB()) < 0){
             return 1; //este codigo es menor que el que le pasamos por referencia

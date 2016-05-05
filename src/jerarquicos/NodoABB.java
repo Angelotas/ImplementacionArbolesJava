@@ -15,7 +15,7 @@ public class NodoABB<E> {
     int tamanyo;
     
     
-    NodoABB (E dato, NodoABB<E> izq, NodoABB<E> der){
+    public NodoABB (E dato, NodoABB<E> izq, NodoABB<E> der){
         this.dato=dato;
         this.izq=izq;
         this.der=der;
