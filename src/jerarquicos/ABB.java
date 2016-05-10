@@ -104,7 +104,7 @@ public class ABB <E extends Comparable<E>>{
                     res.der = actualizar(x, actual.der);
                 }
                 else
-                    res.izq = actualizar(x, actual.izq);
+                        res.izq = actualizar(x, actual.izq);
                 
                 if ((res.izq.tamanyo + res.der.tamanyo) != tamanyoHijosActual){
                     actual.tamanyo++;
@@ -217,4 +217,29 @@ public class ABB <E extends Comparable<E>>{
         }
         return res;
     }
+    
+    /*
+    int subizq = 0;
+    int subder = 0;
+    
+    public void Balance(Nodo<E> actual, boolean lado, int i) {
+
+        if (actual != null) {
+
+            if (actual.der() == null && reco.der() == null) {
+                if (lado) {
+                    subder = (i > subder) ? i : subder;
+                } else {
+                    subizq = (i > subizq) ? i : subizq;
+                }
+            }
+
+            Balance(reco.getDer(), lado, i + 1);
+            if (i == 0) {
+                lado = false;
+            }
+            Balance(reco.getIzq(), lado, i + 1);
+        }
+
+    }*/
 }
