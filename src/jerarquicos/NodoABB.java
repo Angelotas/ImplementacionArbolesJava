@@ -10,9 +10,9 @@ package jerarquicos;
  * @author Ángel
  */
 public class NodoABB<E> {
-    E dato;
-    NodoABB<E> izq,der;
-    int tamanyo;
+    private E dato;
+    private NodoABB<E> izq,der;
+    private int tamanyo;
     
     
     public NodoABB (E dato, NodoABB<E> izq, NodoABB<E> der){
@@ -27,8 +27,41 @@ public class NodoABB<E> {
             tamanyo+=der.tamanyo;
         }
     }
-    
-    NodoABB(E dato){
+    public NodoABB(E dato){
         this(dato,null,null);
     }
+
+    public E getDato() {
+        return dato;
+    }
+
+    public void setDato(E dato) {
+        this.dato = dato;
+    }
+
+    public NodoABB<E> getIzq() {
+        return izq;
+    }
+
+    public void setIzq(NodoABB<E> izq) {
+        this.izq = izq;
+    }
+
+    public NodoABB<E> getDer() {
+        return der;
+    }
+
+    public void setDer(NodoABB<E> der) {
+        this.der = der;
+    }
+
+    public int getTamanyo() {
+        return tamanyo;
+    }
+
+    public void setTamanyo(int tamanyo) {
+        this.tamanyo = tamanyo;
+    }
+    
+    
 }

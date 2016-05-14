@@ -45,8 +45,8 @@ public class Medicamento implements Comparable<Medicamento>{
     }
     
     public String toString(){
-        return "\n\t..::MEDICAMENTO::..\n-->Código de barras: "+this.codigoB+"\n-->Nombre: "+this.nombre+"\nLaboratorio: "
-                +this.laboratorio+"\n-->Precio: "+this.precio+"\nPorcentaje SS: "+this.porcentajeSS+"\n ";
+        return "\n\t..::MEDICAMENTO::..\n-Código de barras: "+this.codigoB+"\n-Nombre: "+this.nombre+"\n-Laboratorio: "
+                +this.laboratorio+"\n-Precio: "+this.precio+"\n-Porcentaje SS: "+this.porcentajeSS+"\n ";
     }
     
 }

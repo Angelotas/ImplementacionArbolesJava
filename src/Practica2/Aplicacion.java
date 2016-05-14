@@ -6,6 +6,8 @@
 package Practica2;
 
 import Excepciones.ElementoDuplicado;
+import Excepciones.ElementoNoEncontrado;
+import Excepciones.FormatoMedicamentoInvalido;
 
 /**
  *
@@ -13,7 +15,7 @@ import Excepciones.ElementoDuplicado;
  */
 public class Aplicacion {
     
-    public static void main ( String [] args ) throws ElementoDuplicado{
+    public static void main ( String [] args ) throws ElementoDuplicado, ElementoNoEncontrado, FormatoMedicamentoInvalido{
         Gestion g= new Gestion();
         g.menu();
     }
