@@ -138,15 +138,19 @@ public class Gestion {
     
     protected Medicamento buscarPorCod(String cod, NodoABB<Medicamento> actual){
         
-        NodoABB<Medicamento> res= actual;
-        if (actual != null){
-            int compara= actual.getDato().getCodigoB().compareTo(cod);
+        NodoABB<Medicamento> res = actual;
+        while (actual != null){
+            int compara= res.getDato().getCodigoB().compareTo(cod);
             if (compara > 0){ //el dato del nodo es mayor que el que se busca ->avanzar a izq
-                buscarPorCod (cod, actual.getIzq());
+                System.out.println("izq");
+                res = res.getIzq();
             }
             else if (compara < 0){
-                buscarPorCod (cod, actual.getDer());
+                System.out.println("der");
+                res = res.getDer();
             }
+            else if (compara == 0)
+                break;
         }  
         return res.getDato();
     }
