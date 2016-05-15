@@ -9,6 +9,7 @@ import Excepciones.ArbolVacio;
 import Excepciones.ElementoDuplicado;
 import Excepciones.ElementoNoEncontrado;
 import Excepciones.FormatoMedicamentoInvalido;
+import jdk.nashorn.internal.runtime.regexp.joni.EncodingHelper;
 import jerarquicos.*;
 
 /**
@@ -38,7 +39,7 @@ public class Gestion {
                 System.out.println("|-------------------------------|-------------------------------|");
                 System.out.print("\n ->Selecciona una opcion: ");
                 opcion= MyInput.readInt();
-
+                
 
                 switch (opcion){
 
@@ -57,10 +58,10 @@ public class Gestion {
                         String nombre= MyInput.readString();
                         System.out.print("\tLaboratorio: ");
                         String lab= MyInput.readString();
-                        System.out.print("\tPrecio: ");
-                        int precio= MyInput.readInt();
+                        System.out.print("\tPrecio(€): ");
+                        float precio= MyInput.readFloat();
                         System.out.print("\tSeguridad social(%): ");
-                        int segSoc= MyInput.readInt();
+                        float segSoc= MyInput.readFloat();
 
                         medicamento = new Medicamento(cod,nombre,lab,precio,segSoc);
                         arbol.insertarSinDuplicados(medicamento);
@@ -74,11 +75,11 @@ public class Gestion {
                         System.out.println("\tELIMINAR MEDICAMENTO");
                         System.out.println("--------------------------------------\n");
                         this.arbol.esVacio();
-                        System.out.print("\tCódigo del medicamento que se desa borrar: ");
+                        System.out.print("\tCódigo del medicamento que se desa BORRAR: ");
                         String c= this.pedirCodigoMed(); //excepción
                         medicamento = this.buscarPorCod(c);  //excepción
                         
-                        System.out.println("\n¿Está seguro de que desea borrar el siguiente medicamento?(s/n)");
+                        System.out.println("\n¿Está seguro de que desea BORRAR el siguiente medicamento?(s/n)");
                         System.out.println(medicamento.toString());
                         System.out.print("\t-->Descisión: ");
                         String sn= MyInput.readString();
@@ -93,15 +94,49 @@ public class Gestion {
                     break;
 
                     case 4:
-
+                        System.out.println("\n--------------------------------------");
+                        System.out.println("\tMODIFICAR MEDICAMENTO");
+                        System.out.println("--------------------------------------\n");
+                        this.arbol.esVacio();
+                        System.out.print("\tCÓDIGO del medicamento que se desa MODIFICAR: ");
+                        String codigo= this.pedirCodigoMed(); //excepción
+                        medicamento = this.buscarPorCod(codigo);  //excepción
+       
+                        System.out.println("\n¿Está seguro de que desea MODIFICAR el siguiente medicamento?(s/n)");
+                        System.out.println(medicamento.toString());
+                        System.out.print("\t-->Descisión: ");
+                        String s= MyInput.readString();
+                        if (s.charAt(0)== 's'){
+                            this.ModidicarMedicamento(medicamento);
+                        }
+                        else{
+                            System.out.println("\n->Modificado candelado...");
+                        }
                     break;
 
                     case 5:
 
+                        System.out.println("\n--------------------------------------");
+                        System.out.println("\tCONSULTAR POR CÓDIGO");
+                        System.out.println("--------------------------------------\n");
+                        this.arbol.esVacio();
+                        System.out.print("\tCÓDIGO del medicamento que se desa CONSULTAR: ");
+                        String co= this.pedirCodigoMed(); //excepción
+                        medicamento = this.buscarPorCod(co);  //excepción
+                        System.out.println(medicamento.toString());
+                        
                     break;
 
                     case 6:
-
+                        
+                        System.out.println("\n--------------------------------------");
+                        System.out.println("\tCONSULTAR POR NOMBRE");
+                        System.out.println("--------------------------------------\n");
+                        this.arbol.esVacio();
+                        System.out.print("\tNOMBRE del medicamento que se desa CONSULTAR: ");
+                        String nom= MyInput.readString();
+                        this.consultarPorNom(nom); //excepción
+                            
                     break;
 
                     case 7:
@@ -110,6 +145,16 @@ public class Gestion {
 
                     case 8:
 
+                    break;
+                    
+                    case 0:
+                        System.out.println("\n|--------------------------------------------------|");
+                        System.out.println("|\tGracias por usar nuestra aplicación\t   |\n|\t\tHasta pronto...\t\t\t   |");
+                        System.out.println("|--------------------------------------------------|\n");
+                    break;
+                    
+                    default:
+                        System.out.println("\n**Opción inválida, seleccione una del 0 al 8**\n");
                     break;
                 }
             }
@@ -122,6 +167,10 @@ public class Gestion {
             catch (ArbolVacio e){
                 System.out.println(e.getMessage());
             }
+            catch (NumberFormatException e){
+                System.out.println("\n**La opción debe ser numérica**\n");
+            }
+            
         }while (opcion != 0);
     }
     
@@ -136,8 +185,10 @@ public class Gestion {
             return cod;
     }
     
+    
+    
     protected Medicamento buscarPorCod(String cod, NodoABB<Medicamento> actual){
-        
+    //No será necesario usar recursividad
         NodoABB<Medicamento> res = actual;
         while (actual != null){
             int compara= res.getDato().getCodigoB().compareTo(cod);
@@ -162,5 +213,51 @@ public class Gestion {
             throw new ElementoNoEncontrado("\n**No se encuentra el medicamento con ese código**\n");
         }
         return m;
+    }
+    
+    protected String consultarPorNom(String nom, NodoABB<Medicamento> actual){
+        String listaMed="";
+        if (actual.getIzq() != null){
+            listaMed += consultarPorNom(nom, actual.getIzq());
+        }
+        if (actual.getDato().getNombre().compareTo(nom) == 0){
+                listaMed += actual.getDato().toString();
+        }
+        if (actual.getDer() != null){
+            listaMed += consultarPorNom(nom, actual.getDer());
+        }
+        return listaMed;  
+    }
+    
+    public void consultarPorNom(String nom) throws ElementoNoEncontrado{
+        String datos = consultarPorNom(nom, arbol.getRaiz());
+        if (datos.compareTo("") == 0){
+            throw new ElementoNoEncontrado("\n**No se encuentran medicamentos con ese nombre**\n");
+        }
+        else
+            System.out.println(datos);
+    }
+    
+    public void ModidicarMedicamento (Medicamento m){
+        
+        System.out.print("\n\t-Nuevo nombre: ");
+        String nom= MyInput.readString();
+        m.setNombre(nom);
+        
+        System.out.print("\t-Nuevo laborario: ");
+        String lab= MyInput.readString();
+        m.setLaboratorio(lab);
+        
+        System.out.print("\t-Nuevo precio(€): ");
+        float pre= MyInput.readFloat();
+        m.setPrecio(pre);
+        
+        System.out.print("\t-Nuevo valor de seguridad social(%): ");
+        float ss= MyInput.readFloat();
+        m.setPorcentajeSS(ss);
+        
+        System.out.println("\n-->Modificación realizada con éxito");
+        
+        
     }
 }

@@ -39,10 +39,44 @@ public class Medicamento implements Comparable<Medicamento>{
             return 2;  //ambos códigos son iguales
         }
     }
-    
-    public String getCodigoB(){
-        return this.codigoB;
+
+    public String getCodigoB() {
+        return codigoB;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getLaboratorio() {
+        return laboratorio;
+    }
+
+    public void setLaboratorio(String laboratorio) {
+        this.laboratorio = laboratorio;
+    }
+
+    public float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(float precio) {
+        this.precio = precio;
+    }
+
+    public float getPorcentajeSS() {
+        return porcentajeSS;
+    }
+
+    public void setPorcentajeSS(float porcentajeSS) {
+        this.porcentajeSS = porcentajeSS;
+    }
+    
+    
     
     public String toString(){
         return "\n\t..::MEDICAMENTO::..\n-Código de barras: "+this.codigoB+"\n-Nombre: "+this.nombre+"\n-Laboratorio: "
