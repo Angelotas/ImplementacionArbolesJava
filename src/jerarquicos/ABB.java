@@ -42,16 +42,29 @@ public class ABB <E extends Comparable<E>>{
     /*---------------------------------------------------------------------*/
     public void esVacio() throws ArbolVacio{
         if (this.raiz == null){
-            throw new ArbolVacio("\n**El árbol está vacío, antes debes introducir medicamentos (opc 2)**\n");
+            throw new ArbolVacio("\n**El árbol está vacío, antes debes introducir medicamentos (opc 2) o cargar datos del fichero MEDICAMENTOS.txt (opc7)**\n");
         }
     }
-    /*---------------------------------------------------------------------*/
-    /*---------------------------------------------------------------------*/
-    public int getAltura(){ //número de palitos del nodo hasta el fin del arbol
-        return 1;
-    }
-    protected void getAltura(NodoABB<E> actual, int nivel){
-            
+    
+    
+    public int getNivel(NodoABB<E> nodoComprobar){ //en que nivel se encuentra el nodo del arbol
+        NodoABB<E> actual = this.raiz;
+        int nivel = 0; //se inicializa a 1 ya que estamos en la raiz
+        
+        while (actual != null){
+            int comp= nodoComprobar.getDato().compareTo(actual.getDato()); //utiliza el compareTo reescrito en medicamento
+            if (comp == 0){ //el actual es menor, habrá que ir hacia la derecha
+                actual = actual.getDer();
+                nivel++;
+            }
+            else if (comp == 1){ //el actual es mayor, habra que ir hacia la izquierda
+                actual = actual.getIzq();
+                nivel++;
+            }
+            else if (comp == 2) //se ha llegado al nodoComprobar y ya tenemos su nivel respecto de la raiz
+                break;
+        }
+        return nivel;
     }
     
     /*---------------------------------------------------------------------*/
@@ -90,32 +103,7 @@ public class ABB <E extends Comparable<E>>{
         return res;
     }
     
-    /*---------------------------------------------------------------------*/
-    /*---------------------------------------------------------------------*/
-    public E recuperar(E x) throws ElementoNoEncontrado{
-        //Busca a partir de del nodo raiz del árbol, si devuelve null lanza la excepción
-        //de nodo no encontrado.
-        NodoABB<E> res= recuperar(x, this.raiz);
-        if (res == null){
-            throw new ElementoNoEncontrado("\n***No se encuentra el dato***\n");
-        }
-        return res.getDato();
-    }
-    protected NodoABB<E> recuperar (E x, NodoABB<E> actual){
-        //Busca a partir de un determinado nodo del arbol
-        NodoABB<E> res=actual;
-        if (actual != null){
-            int resC = actual.getDato().compareTo(x);
-            if (resC == 0){ //ir hacia la derecha puesto que el dato x es mayor que el dato de n
-                this.recuperar(x,actual.getDer());
-            }
-            else if(resC == 1){
-                this.recuperar(x, actual.getIzq());
-            }
-            //Si es igual, no entrará a ningún método recursivo y se devolverá el nodo
-        }
-        return res;
-    }
+    
     /*---------------------------------------------------------------------*/
     /*---------------------------------------------------------------------*/
     
@@ -140,6 +128,9 @@ public class ABB <E extends Comparable<E>>{
         this.raiz = eliminar(x,raiz);
     }
     protected NodoABB<E> eliminar (E x, NodoABB<E> actual) throws ElementoNoEncontrado{
+        //Caso 1-> borrado de nodo sin hijos
+        //Caso 2-> borrado de nodo con 2 hijos
+        //Caso 3-> borrado de nodo con 2 hijos y sus hijos tienen hijos (nos falla)
         NodoABB<E> res= actual;
         if (actual == null)
             throw new ElementoNoEncontrado("\n***El dato no existe***\n");
@@ -194,29 +185,5 @@ public class ABB <E extends Comparable<E>>{
         }
         return res;
     }
-    
-    /*
-    int subizq = 0;
-    int subder = 0;
-    
-    public void Balance(Nodo<E> actual, boolean lado, int i) {
-
-        if (actual != null) {
-
-            if (actual.der() == null && reco.der() == null) {
-                if (lado) {
-                    subder = (i > subder) ? i : subder;
-                } else {
-                    subizq = (i > subizq) ? i : subizq;
-                }
-            }
-
-            Balance(reco.getDer(), lado, i + 1);
-            if (i == 0) {
-                lado = false;
-            }
-            Balance(reco.getIzq(), lado, i + 1);
-        }
-
-    }*/
+  
 }

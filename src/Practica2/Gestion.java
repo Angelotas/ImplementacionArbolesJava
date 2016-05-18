@@ -9,6 +9,12 @@ import Excepciones.ArbolVacio;
 import Excepciones.ElementoDuplicado;
 import Excepciones.ElementoNoEncontrado;
 import Excepciones.FormatoMedicamentoInvalido;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import jdk.nashorn.internal.runtime.regexp.joni.EncodingHelper;
 import jerarquicos.*;
 
@@ -21,6 +27,10 @@ public class Gestion {
     
     ABB<Medicamento> arbol= new ABB<Medicamento>();
     Medicamento medicamento;
+    FileWriter fichero = null;
+    FileReader fichero2 = null;
+    PrintWriter pw = null;  //para la escritura
+    BufferedReader br = null; //para la lectura
         
     public void menu() throws ElementoDuplicado, ElementoNoEncontrado, FormatoMedicamentoInvalido, ArbolVacio{
         int opcion=0;
@@ -44,6 +54,9 @@ public class Gestion {
                 switch (opcion){
 
                     case 1:
+                        System.out.println("\n--------------------------------------");
+                        System.out.println("\tLISTADO DE MEDICAMENTOS");
+                        System.out.println("--------------------------------------\n");
                         this.arbol.esVacio();
                         this.arbol.ImprimirInOrden();
                     break;
@@ -140,11 +153,63 @@ public class Gestion {
                     break;
 
                     case 7:
-
+                        System.out.println("\n--------------------------------------");
+                        System.out.println("\tCARGAR FICHERO");
+                        System.out.println("--------------------------------------\n");
+                        
+                        try{
+                            fichero2 = new FileReader("MEDICAMENTOS.txt");
+                            
+                            br = new BufferedReader(fichero2);
+                            
+                            
+                            String linea;
+                            String linea2="";
+                            
+                            while ((linea=br.readLine()) != null){
+                                linea2 = linea.replaceAll("\t", ""); //linea eliminando  las tabulaciones
+                                String[] datos= linea2.split("#");
+                                String codigoBa= datos[0];
+                                String nomb= datos[1];
+                                String labo= datos[2];
+                                float pre= Float.parseFloat(datos[3]);
+                                float segS= Float.parseFloat(datos[4]);
+                                
+                                medicamento = new Medicamento(codigoBa,nomb,labo,pre,segS);
+                                this.arbol.insertarSinDuplicados(medicamento);
+                            }
+                            System.out.println("\n-->Los datos se han cargado correctamente...");
+                            
+                            br.close();
+                            fichero2.close();
+                            
+                        }
+                        catch(Exception e){
+                            System.out.println("\n**Error al cargar los datos**\n");
+                        }
+                        
+                        
                     break;
 
                     case 8:
-
+                        System.out.println("\n--------------------------------------");
+                        System.out.println("\tSALVAR FICHERO");
+                        System.out.println("--------------------------------------\n");
+                        this.arbol.esVacio();
+                        
+                        try{
+                            
+                            fichero = new FileWriter("MEDICAMENTOS.txt");
+                            pw = new PrintWriter(fichero);
+                            
+                            this.imprFormatoFich(arbol.getRaiz(), pw);
+                            
+                            fichero.close();
+                            System.out.println("\n-->Los datos se han guardado correctamente...");
+                        }
+                        catch(Exception e){
+                            System.out.println("\n**Existe un problema en el guardado de datos**");
+                        }
                     break;
                     
                     case 0:
@@ -257,7 +322,31 @@ public class Gestion {
         m.setPorcentajeSS(ss);
         
         System.out.println("\n-->Modificación realizada con éxito");
+
+    }
+    
+    protected String imprFormatoFich(NodoABB<Medicamento> actual,PrintWriter pw){
+        //metodo que devuelve una cadena con la información que se escribirá en el fichero de texto
         
+        String tabulaciones= this.numTab(arbol.getNivel(actual));
+        String res= tabulaciones+""+actual.getDato().toStringFich(); //tabulaciones por nivel + formato establecido
+        pw.println(res); //lo escribe en el fichero en pre-orden
+        if (actual.getIzq() != null){
+            res+=imprFormatoFich(actual.getIzq(),pw);
+        }
+        if (actual.getDer()!= null){
+            res+=imprFormatoFich(actual.getDer(),pw);
+        }
+        return res;  
         
     }
+    public String numTab(int nivel){
+        String tab="";
+        for (int i=0; i< nivel; i++){
+            tab+="\t";
+        }
+        return tab;
+    }
+    
+    
 }

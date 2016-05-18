@@ -46,27 +46,6 @@ return Long.parseLong(readString()); }
 public static float readFloat() {
 return Float.parseFloat(readString()); }
     
-public static String leerArchivo(File a) throws FileNotFoundException{
-    String string = null;
-    
-    try{
-        FileReader fr=new FileReader(a);
-        BufferedReader br=new BufferedReader(fr);
-        Random rnd=new Random();
-        ArrayList<String> ln=new ArrayList<String>();
-        while((string=br.readLine())!=null){
-            ln.add(string); //introduce al arraylist el fichero 
-        }
-        string = ln.get(rnd.nextInt(ln.size())); //lee de forma aleatoria las cosiciones del arraylist
-   }
-    catch (IOException e){
-        System.out.println("No existe");
-        
-    }
-    return string; 
-    
-    
+ 
+}
 
-    
-}
-}

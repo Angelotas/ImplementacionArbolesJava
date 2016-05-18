@@ -78,9 +78,13 @@ public class Medicamento implements Comparable<Medicamento>{
     
     
     
+    @Override
     public String toString(){
-        return "\n\t..::MEDICAMENTO::..\n-Código de barras: "+this.codigoB+"\n-Nombre: "+this.nombre+"\n-Laboratorio: "
-                +this.laboratorio+"\n-Precio: "+this.precio+"\n-Porcentaje SS: "+this.porcentajeSS+"\n ";
+        return "\nCodigo: "+this.codigoB+"| Nombre: "+this.nombre+"| Laboratorio: "+this.laboratorio+"| Precio: "+this.precio+"| PorcentajeSS: "+this.porcentajeSS+"\n ";
+    }
+    
+    public String toStringFich(){
+        return this.codigoB+"#"+this.nombre+"#"+this.laboratorio+"#"+this.precio+"#"+this.porcentajeSS;
     }
     
 }
