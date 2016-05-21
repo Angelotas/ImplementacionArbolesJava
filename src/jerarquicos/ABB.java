@@ -107,16 +107,11 @@ public class ABB <E extends Comparable<E>>{
     /*---------------------------------------------------------------------*/
     /*---------------------------------------------------------------------*/
     
-    public E recuperarMin(){
-        //devuelve el dato de tipo E mas pequeño del árbol
-        NodoABB<E> res = this.recuperarMin(this.raiz);
-        return res.getDato();
-    }
     protected NodoABB<E> recuperarMin(NodoABB<E> actual){
-        //sin necesidad de método recursivo
-        NodoABB<E> res= actual;
-        while (actual.getIzq() != null){
-            res = actual.getIzq();
+        
+        NodoABB<E> res = actual;
+        if (actual.getIzq() != null){
+            res = recuperarMin(actual.getIzq());
         }
         return res;
             
@@ -168,6 +163,7 @@ public class ABB <E extends Comparable<E>>{
         }
         return actual;
     }
+    
     /*---------------------------------------------------------------------*/
     /*---------------------------------------------------------------------*/
     public void ImprimirInOrden (){

@@ -15,6 +15,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import jdk.nashorn.internal.runtime.regexp.joni.EncodingHelper;
 import jerarquicos.*;
 
@@ -59,6 +61,7 @@ public class Gestion {
                         System.out.println("--------------------------------------\n");
                         this.arbol.esVacio();
                         this.arbol.ImprimirInOrden();
+
                     break;
 
                     case 2:
@@ -103,7 +106,7 @@ public class Gestion {
                         else{
                             System.out.println("\n->Borrado candelado...");
                         }
-                        
+
                     break;
 
                     case 4:
@@ -165,6 +168,8 @@ public class Gestion {
                             
                             String linea;
                             String linea2="";
+                            this.arbol=null; //antes hay que borrar el arbol
+                            this.arbol = new ABB();
                             
                             while ((linea=br.readLine()) != null){
                                 linea2 = linea.replaceAll("\t", ""); //linea eliminando  las tabulaciones
@@ -243,13 +248,19 @@ public class Gestion {
         String cod;
         
         cod = MyInput.readString();
-        if (cod.length() != 6){
+        /*if (cod.length() != 6){
             throw new FormatoMedicamentoInvalido("\n**El código del dni debe tener 6 dígitos**\n");
         }
-        else
+        return cod;*/
+        Pattern formato = Pattern.compile("[0-9]{6,}"); //Si la cadena esta formada por 6 dígitos numéricos
+        Matcher mat= formato.matcher(cod);
+        if (mat.matches()){
             return cod;
+        }
+        else
+            throw new FormatoMedicamentoInvalido ("\n**El código del dni debe tener 6 dígitos numéricos**\n");
+        
     }
-    
     
     
     protected Medicamento buscarPorCod(String cod, NodoABB<Medicamento> actual){
