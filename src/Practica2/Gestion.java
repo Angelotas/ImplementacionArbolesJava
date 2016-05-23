@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -167,24 +168,8 @@ public class Gestion {
                             
                             br = new BufferedReader(fichero2);
                             
+                            this.cargarDatos(br); //carga los datos linea a linea
                             
-                            String linea;
-                            String linea2="";
-                            this.arbol=null; //antes hay que borrar el arbol
-                            this.arbol = new ABB();
-                            
-                            while ((linea=br.readLine()) != null){
-                                linea2 = linea.replaceAll("\t", ""); //linea eliminando  las tabulaciones
-                                String[] datos= linea2.split("#");
-                                String codigoBa= datos[0];
-                                String nomb= datos[1];
-                                String labo= datos[2];
-                                float pre= Float.parseFloat(datos[3]);
-                                float segS= Float.parseFloat(datos[4]);
-                                
-                                medicamento = new Medicamento(codigoBa,nomb,labo,pre,segS);
-                                this.arbol.insertarSinDuplicados(medicamento);
-                            }
                             System.out.println("\n-->Los datos se han cargado correctamente...");
                             
                             br.close();
@@ -260,7 +245,7 @@ public class Gestion {
             return cod;
         }
         else
-            throw new FormatoMedicamentoInvalido ("\n**El código del dni debe tener 6 dígitos numéricos**\n");
+            throw new FormatoMedicamentoInvalido ("\n**El código de barras debe tener 6 dígitos numéricos**\n");
         
     }
     
@@ -316,6 +301,28 @@ public class Gestion {
             res+=imprFormatoFich(actual.getDer(),pw);
         }
         return res;  
+        
+    }
+    
+    protected void cargarDatos(BufferedReader br) throws IOException, ElementoDuplicado{
+        
+        String linea; //linea completa
+        String linea2=""; //linea sin tabulaciones
+        this.arbol=null; //antes hay que borrar el arbol
+        this.arbol = new ABB();
+
+        while ((linea=br.readLine()) != null){
+            linea2 = linea.replaceAll("\t", ""); //linea eliminando  las tabulaciones
+            String[] datos= linea2.split("#");
+            String codigoBa= datos[0];
+            String nomb= datos[1];
+            String labo= datos[2];
+            float pre= Float.parseFloat(datos[3]);
+            float segS= Float.parseFloat(datos[4]);
+
+            medicamento = new Medicamento(codigoBa,nomb,labo,pre,segS);
+            this.arbol.insertarSinDuplicados(medicamento);
+        }
         
     }
     public String numTab(int nivel){

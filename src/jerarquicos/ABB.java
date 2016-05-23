@@ -100,8 +100,7 @@ public class ABB <E extends ComparaNombre<E>>{
                 }
                 actual.setTamanyo(actual.getTamanyo() + 1);
             } 
-        }
-        
+        } 
         return res;
     }
     
@@ -196,11 +195,9 @@ public class ABB <E extends ComparaNombre<E>>{
         if (actual != null){
             int compara= actual.getDato().compareTo(x);
             if (compara == 1){ //buscar por la derecha
-                System.out.println("der");
                 res =this.buscarPorCod(x, res.getDer());
             }
             else if (compara == 0){ //buscar por la izquierda
-                System.out.println("izq");
                 res =this.buscarPorCod(x, res.getIzq());
             }
         }
