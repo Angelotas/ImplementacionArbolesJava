@@ -182,39 +182,40 @@ public class ABB <E extends Comparable<E>>{
         }
         return res;
     }
-    
-    public void ModificarNodo(E existente, E nuevo){
-        existente = nuevo;
+    /*---------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------*/
+    public void ModificarNodo(NodoABB<E> existente, E datoNuevo){
+        existente.setDato(datoNuevo);
     }
     /*---------------------------------------------------------------------*/
-    /*---------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
     protected NodoABB<E> buscarPorCod(E x, NodoABB<E> actual){
         NodoABB<E> res = actual;
         
-        int compara= actual.getDato().compareTo(x);
-        
-        if (compara == 1){ //buscar por la derecha
-            actual.setDer(this.buscarPorCod(x, actual.getDer()));
-        }
-        else if (compara == 0){ //buscar por la izquierda
-            actual.setIzq(this.buscarPorCod(x, actual.getIzq()));
-        }
-        else if (compara == 2){
-            
+        if (actual != null){
+            int compara= actual.getDato().compareTo(x);
+            if (compara == 1){ //buscar por la derecha
+                System.out.println("der");
+                res =this.buscarPorCod(x, res.getDer());
+            }
+            else if (compara == 0){ //buscar por la izquierda
+                System.out.println("izq");
+                res =this.buscarPorCod(x, res.getIzq());
+            }
         }
         return res;
     }
     
     public NodoABB<E> buscarPorCod(E x) throws ElementoNoEncontrado{
         
-        NodoABB<E> res = buscarPorCod(x, this.raiz);
+        NodoABB<E> res = this.buscarPorCod(x, this.raiz);
         if (res == null){
             throw new ElementoNoEncontrado("\n**No se encuentra el medicamento con ese código**\n");
         }
         else
             return res;
     }
-    ---------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------*/
     /*---------------------------------------------------------------------*/
   
 }

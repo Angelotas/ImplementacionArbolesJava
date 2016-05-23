@@ -93,7 +93,8 @@ public class Gestion {
                         this.arbol.esVacio();
                         System.out.print("\tCódigo del medicamento que se desa BORRAR: ");
                         String c= this.pedirCodigoMed(); //excepción
-                        medicamento = this.buscarPorCod(c);  //excepción
+                        Medicamento aux= new Medicamento(c,null,null,0,0); //medicamento auxiliar con el código a buscar
+                        medicamento = arbol.buscarPorCod(aux).getDato();
                         
                         System.out.println("\n¿Está seguro de que desea BORRAR el siguiente medicamento?(s/n)");
                         System.out.println(medicamento.toString());
@@ -116,7 +117,8 @@ public class Gestion {
                         this.arbol.esVacio();
                         System.out.print("\tCÓDIGO del medicamento que se desa MODIFICAR: ");
                         String codigo= this.pedirCodigoMed(); //excepción
-                        medicamento = this.buscarPorCod(codigo);  //excepción
+                        medicamento = this.buscarMedicamentoCod(codigo);
+                        
        
                         System.out.println("\n¿Está seguro de que desea MODIFICAR el siguiente medicamento?(s/n)");
                         System.out.println(medicamento.toString());
@@ -138,8 +140,7 @@ public class Gestion {
                         this.arbol.esVacio();
                         System.out.print("\tCÓDIGO del medicamento que se desa CONSULTAR: ");
                         String co= this.pedirCodigoMed(); //excepción
-                        medicamento = this.buscarPorCod(co);  //excepción
-                        System.out.println(medicamento.toString());
+                        medicamento = this.buscarMedicamentoCod(co);
                         
                     break;
 
@@ -263,34 +264,6 @@ public class Gestion {
     }
     
     
-    protected Medicamento buscarPorCod(String cod, NodoABB<Medicamento> actual){
-    //No será necesario usar recursividad
-        NodoABB<Medicamento> res = actual;
-        while (actual != null){
-            int compara= res.getDato().getCodigoB().compareTo(cod);
-            if (compara > 0){ //el dato del nodo es mayor que el que se busca ->avanzar a izq
-                System.out.println("izq");
-                res = res.getIzq();
-            }
-            else if (compara < 0){
-                System.out.println("der");
-                res = res.getDer();
-            }
-            else if (compara == 0)
-                break;
-        }  
-        return res.getDato();
-    }
-    
-    public Medicamento buscarPorCod (String cod) throws ElementoNoEncontrado{
-        
-        Medicamento m= buscarPorCod(cod, this.arbol.getRaiz());
-        if (m == null){
-            throw new ElementoNoEncontrado("\n**No se encuentra el medicamento con ese código**\n");
-        }
-        return m;
-    }
-    
     protected String consultarPorNom(String nom, NodoABB<Medicamento> actual){
         String listaMed="";
         if (actual.getIzq() != null){
@@ -314,7 +287,8 @@ public class Gestion {
             System.out.println(datos);
     }
     
-    public void ModidicarMedicamento (Medicamento m){ //utiliza el método recursivo de modificar
+    public void ModidicarMedicamento (Medicamento m) throws ElementoNoEncontrado{ 
+    //hace uso del método genérico ModificarNodo
         
         String codig= m.getCodigoB();
         System.out.print("\n\t-Nuevo nombre: ");
@@ -333,11 +307,18 @@ public class Gestion {
         float ss= MyInput.readFloat();
         //m.setPorcentajeSS(ss);
         
-        Medicamento nuevo = new Medicamento(codig,nom,lab,pre,ss);
-        arbol.ModificarNodo(m, nuevo);
+        Medicamento nuevo = new Medicamento(codig,nom,lab,pre,ss); //este medicamento reescribirá el dato del nodo que se quiere modificar
+        NodoABB<Medicamento> nodoModificar = arbol.buscarPorCod(m); //el nodo que se quiere modificar
+        arbol.ModificarNodo(nodoModificar, nuevo);
         
         System.out.println("\n-->Modificación realizada con éxito");
 
+    }
+    
+    public Medicamento buscarMedicamentoCod(String cod) throws ElementoNoEncontrado{
+        
+        Medicamento aux= new Medicamento(cod,null,null,0,0); //medicamento auxiliar con el código a buscar
+        return arbol.buscarPorCod(aux).getDato();
     }
     
     protected String imprFormatoFich(NodoABB<Medicamento> actual,PrintWriter pw){
@@ -361,7 +342,5 @@ public class Gestion {
             tab+="\t";
         }
         return tab;
-    }
-    
-    
+    } 
 }
