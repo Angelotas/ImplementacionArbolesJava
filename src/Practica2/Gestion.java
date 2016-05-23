@@ -141,6 +141,7 @@ public class Gestion {
                         System.out.print("\tCÓDIGO del medicamento que se desa CONSULTAR: ");
                         String co= this.pedirCodigoMed(); //excepción
                         medicamento = this.buscarMedicamentoCod(co);
+                        System.out.println(medicamento.toString());
                         
                     break;
 

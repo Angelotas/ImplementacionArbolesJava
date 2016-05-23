@@ -9,7 +9,7 @@ package Practica2;
  *
  * @author Ángel
  */
-public class Medicamento implements Comparable<Medicamento>{
+public class Medicamento implements ComparaNombre<Medicamento>{
 
     private String codigoB;
     private String nombre;
@@ -24,22 +24,7 @@ public class Medicamento implements Comparable<Medicamento>{
         this.precio=pre;
         this.porcentajeSS=por;
     }
-    
-    @Override
-    public int compareTo(Medicamento m) {
-        
-        if (this.codigoB.compareTo(m.getCodigoB()) > 0){
-            return 0; //este codigo es mayor que el que le pasamos por referencia
-                      //Ej. 7.compareTo(6) --> return 0  res.
-        }
-        else if (this.codigoB.compareTo(m.getCodigoB()) < 0){
-            return 1; //este codigo es menor que el que le pasamos por referencia
-        }
-        else{
-            return 2;  //ambos códigos son iguales
-        }
-    }
-
+   
     public String getCodigoB() {
         return codigoB;
     }
@@ -86,5 +71,17 @@ public class Medicamento implements Comparable<Medicamento>{
     public String toStringFich(){
         return this.codigoB+"#"+this.nombre+"#"+this.laboratorio+"#"+this.precio+"#"+this.porcentajeSS;
     }
+
+    @Override
+    public int compareTo(Medicamento m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    @Override
+    public int compareToNombre(Medicamento m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+
     
 }
