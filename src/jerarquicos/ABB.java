@@ -5,6 +5,7 @@
  */
 package jerarquicos;
 import Excepciones.*;
+import Practica2.Medicamento;
 
 /**
  *
@@ -181,5 +182,39 @@ public class ABB <E extends Comparable<E>>{
         }
         return res;
     }
+    
+    public void ModificarNodo(E existente, E nuevo){
+        existente = nuevo;
+    }
+    /*---------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------
+    protected NodoABB<E> buscarPorCod(E x, NodoABB<E> actual){
+        NodoABB<E> res = actual;
+        
+        int compara= actual.getDato().compareTo(x);
+        
+        if (compara == 1){ //buscar por la derecha
+            actual.setDer(this.buscarPorCod(x, actual.getDer()));
+        }
+        else if (compara == 0){ //buscar por la izquierda
+            actual.setIzq(this.buscarPorCod(x, actual.getIzq()));
+        }
+        else if (compara == 2){
+            
+        }
+        return res;
+    }
+    
+    public NodoABB<E> buscarPorCod(E x) throws ElementoNoEncontrado{
+        
+        NodoABB<E> res = buscarPorCod(x, this.raiz);
+        if (res == null){
+            throw new ElementoNoEncontrado("\n**No se encuentra el medicamento con ese código**\n");
+        }
+        else
+            return res;
+    }
+    ---------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------*/
   
 }

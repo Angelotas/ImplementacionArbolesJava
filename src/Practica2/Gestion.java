@@ -314,23 +314,27 @@ public class Gestion {
             System.out.println(datos);
     }
     
-    public void ModidicarMedicamento (Medicamento m){
+    public void ModidicarMedicamento (Medicamento m){ //utiliza el método recursivo de modificar
         
+        String codig= m.getCodigoB();
         System.out.print("\n\t-Nuevo nombre: ");
         String nom= MyInput.readString();
-        m.setNombre(nom);
+        //m.setNombre(nom);
         
         System.out.print("\t-Nuevo laborario: ");
         String lab= MyInput.readString();
-        m.setLaboratorio(lab);
+        //m.setLaboratorio(lab);
         
         System.out.print("\t-Nuevo precio(€): ");
         float pre= MyInput.readFloat();
-        m.setPrecio(pre);
+        //m.setPrecio(pre);
         
         System.out.print("\t-Nuevo valor de seguridad social(%): ");
         float ss= MyInput.readFloat();
-        m.setPorcentajeSS(ss);
+        //m.setPorcentajeSS(ss);
+        
+        Medicamento nuevo = new Medicamento(codig,nom,lab,pre,ss);
+        arbol.ModificarNodo(m, nuevo);
         
         System.out.println("\n-->Modificación realizada con éxito");
 
