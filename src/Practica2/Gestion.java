@@ -153,7 +153,7 @@ public class Gestion {
                         this.arbol.esVacio();
                         System.out.print("\tNOMBRE del medicamento que se desa CONSULTAR: ");
                         String nom= MyInput.readString();
-                        this.consultarPorNom(nom); //excepción
+                        this.buscarMedicamentoNom(nom); //excepción
                             
                     break;
 
@@ -264,30 +264,6 @@ public class Gestion {
         
     }
     
-    
-    protected String consultarPorNom(String nom, NodoABB<Medicamento> actual){
-        String listaMed="";
-        if (actual.getIzq() != null){
-            listaMed += consultarPorNom(nom, actual.getIzq());
-        }
-        if (actual.getDato().getNombre().compareTo(nom) == 0){
-                listaMed += actual.getDato().toString();
-        }
-        if (actual.getDer() != null){
-            listaMed += consultarPorNom(nom, actual.getDer());
-        }
-        return listaMed;  
-    }
-    
-    public void consultarPorNom(String nom) throws ElementoNoEncontrado{
-        String datos = consultarPorNom(nom, arbol.getRaiz());
-        if (datos.compareTo("") == 0){
-            throw new ElementoNoEncontrado("\n**No se encuentran medicamentos con ese nombre**\n");
-        }
-        else
-            System.out.println(datos);
-    }
-    
     public void ModidicarMedicamento (Medicamento m) throws ElementoNoEncontrado{ 
     //hace uso del método genérico ModificarNodo
         
@@ -320,6 +296,11 @@ public class Gestion {
         
         Medicamento aux= new Medicamento(cod,null,null,0,0); //medicamento auxiliar con el código a buscar
         return arbol.buscarPorCod(aux).getDato();
+    }
+    public void buscarMedicamentoNom (String nom) throws ElementoNoEncontrado {
+        
+        Medicamento aux= new Medicamento (null,nom,null,0,0);
+        arbol.buscarPorNom(aux);
     }
     
     protected String imprFormatoFich(NodoABB<Medicamento> actual,PrintWriter pw){

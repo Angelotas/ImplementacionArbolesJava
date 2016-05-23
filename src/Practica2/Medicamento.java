@@ -74,11 +74,25 @@ public class Medicamento implements ComparaNombre<Medicamento>{
 
     @Override
     public int compareTo(Medicamento m) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.codigoB.compareTo(m.getCodigoB()) > 0){
+            return 0; //este codigo es mayor que el que le pasamos por referencia
+                      //Ej. 7.compareTo(6) --> return 0  res.
+        }
+        else if (this.codigoB.compareTo(m.getCodigoB()) < 0){
+            return 1; //este codigo es menor que el que le pasamos por referencia
+        }
+        else{
+            return 2;  //ambos códigos son iguales
+        }
     }
     @Override
     public int compareToNombre(Medicamento m) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if ((m.getNombre().compareTo(this.nombre)) == 0){ //el nombre de los medicamentos es igual
+            return 2;
+        }
+        else
+            return 1;
     }
 
     

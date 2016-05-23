@@ -5,13 +5,14 @@
  */
 package jerarquicos;
 import Excepciones.*;
+import Practica2.ComparaNombre;
 import Practica2.Medicamento;
 
 /**
  *
  * @author Ángel
  */
-public class ABB <E extends Comparable<E>>{
+public class ABB <E extends ComparaNombre<E>>{
     protected NodoABB<E> raiz;
     protected int altura;
     
@@ -218,4 +219,27 @@ public class ABB <E extends Comparable<E>>{
     /*---------------------------------------------------------------------*/
     /*---------------------------------------------------------------------*/
   
+    protected String buscarPorNom(E x, NodoABB<E> actual){
+        String listaE="";
+        if (actual.getIzq() != null){
+            listaE += buscarPorNom(x, actual.getIzq());
+        }
+        if (actual.getDato().compareToNombre(x) == 2){
+            listaE += actual.getDato().toString();
+        }
+        if (actual.getDer() != null){
+            listaE += buscarPorNom(x, actual.getDer());
+        }
+        return listaE;
+    }
+    
+    public void buscarPorNom (E x) throws ElementoNoEncontrado{
+        String listaE="";
+        listaE = this.buscarPorNom(x, raiz);
+        if (listaE.compareTo("") == 1){
+            throw new ElementoNoEncontrado("\n**No se encuentran medicamentos con ese nombre**\n");
+        }
+        else
+            System.out.println(listaE);
+    } 
 }
